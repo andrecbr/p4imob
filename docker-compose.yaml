@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+
+  app:
+    build:
+      context: .
+    ports:
+      - 8181:8181
+    volumes:
+      - ./:/var/www
+    container_name: p4imob-app
+    networks:
+      - p4m_network
+
+  mysql:
+    image: mysql:5.7
+    container_name: p4m-db
+    ports:
+      - 3305:3306
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    networks:
+      - p4m_network
+
+networks:
+  p4m_network:
+    driver: bridge
