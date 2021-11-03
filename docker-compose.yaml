@@ -2,19 +2,27 @@ version: '3.7'
 services:
 
   app:
+    container_name: p4imob-app
+    restart: unless-stopped
+    tty: true
     build:
       context: .
+      dockerfile: Dockerfile
     ports:
       - 8181:8181
     volumes:
       - ./:/var/www
-    container_name: p4imob-app
     networks:
       - p4m_network
+    depends_on:
+      - mysql
 
   mysql:
     image: mysql:5.7
     container_name: p4m-db
+    restart: unless-stopped
+    expose:
+      - 3306
     ports:
       - 3305:3306
     environment:
